@@ -7,19 +7,33 @@ app.controller("appController", function($scope) {
     $scope.respuesta.mensajeError="";
     $scope.respuesta.banderaSuccess=false;
     $scope.respuesta.mensajeSuccess="";
+    $scope.variablesUso=[];
     $scope.Calcular=function()
     {
         if($scope.validarDatosIngreso())
         {
             $scope.respuesta.banderaError=false;
             $scope.respuesta.banderaSuccess=false;
-            $scope.variablesUso=[];
-            
+            switch($scope.data.tipoPresente)
+            {
+                case "NOMINAL": $scope.convercionNominalEfectiva();break;
+                case "EFECTIVO":$scope.variablesUso.porcentajeEfectivo=($scope.data.porcentaje/100); break;
+            }
         }
         else{
             $scope.respuesta.banderaError=true;
             $scope.respuesta.banderaSuccess=false;
         }
+    }
+    $scope.convercionNominalEfectiva=function(){
+        switch($scope.data.formPagoPresente)
+        {
+            case "MENSUAL": $scope.variablesUso.cantidadTipoPago=12;break;
+            case "TRIMESTRAL": $scope.variablesUso.cantidadTipoPago=4;break;
+            case "SEMESTRAL": $scope.variablesUso.cantidadTipoPago=2;break;
+            case "ANUAL": $scope.variablesUso.cantidadTipoPago=1;break;
+        }
+        $scope.variablesUso.porcentajeEfectivo=($scope.data.porcentaje/100)/$scope.variablesUso.cantidadTipoPago;
     }
     $scope.validarDatosIngreso=function()
     {
@@ -84,5 +98,6 @@ app.controller("appController", function($scope) {
             $scope.respuesta.mensajeError="Debe seleccionar la forma de pago futuro.";
             return false;
         }
+        return true;
     }
 });
