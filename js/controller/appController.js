@@ -14,26 +14,53 @@ app.controller("appController", function($scope) {
         {
             $scope.respuesta.banderaError=false;
             $scope.respuesta.banderaSuccess=false;
+            $scope.calcularMesesTasa();
             switch($scope.data.tipoPresente)
             {
                 case "NOMINAL": $scope.convercionNominalEfectiva();break;
                 case "EFECTIVO":$scope.variablesUso.porcentajeEfectivo=($scope.data.porcentaje/100); break;
             }
+            $scope.equivalenciaTiemposTasa();
+            switch($scope.data.tipoFuturo)
+            {
+                case "NOMINAL": $scope.variablesUso.Resultado=$scope.convercionEfectivaNominal()*100;break;
+                case "EFECTIVO":$scope.variablesUso.Resultado=$scope.variablesUso.TasaEfectivaInicial*100; break;
+            }
+            $scope.respuesta.banderaError=false;
+            $scope.respuesta.banderaSuccess=true;
+            $scope.respuesta.mensajeSuccess="Datos Calculados";
+            $scope.respuesta.mensajeError="";
         }
         else{
             $scope.respuesta.banderaError=true;
             $scope.respuesta.banderaSuccess=false;
         }
     }
-    $scope.convercionNominalEfectiva=function(){
+    $scope.convercionEfectivaNominal=function(){
+        return $scope.variablesUso.TasaEfectivaInicial*$scope.variablesUso.cantidadTipoPagoFuturo;
+    }
+    $scope.equivalenciaTiemposTasa=function(){
+        switch($scope.data.formaPagoFuturo)
+        {
+            case "MENSUAL": $scope.variablesUso.cantidadTipoPagoFuturo=12;break;
+            case "TRIMESTRAL": $scope.variablesUso.cantidadTipoPagoFuturo=4;break;
+            case "SEMESTRAL": $scope.variablesUso.cantidadTipoPagoFuturo=2;break;
+            case "ANUAL": $scope.variablesUso.cantidadTipoPagoFuturo=1;break;
+        }
+        $scope.variablesUso.TasaEfectivaInicial=Math.pow($scope.variablesUso.porcentajeEfectivo+1,$scope.variablesUso.cantidadTipoPagoPresente);
+        $scope.variablesUso.TasaEfectivaInicial=Math.pow($scope.variablesUso.TasaEfectivaInicial,1/$scope.variablesUso.cantidadTipoPagoFuturo)-1;
+    }
+    $scope.calcularMesesTasa=function(){
         switch($scope.data.formPagoPresente)
         {
-            case "MENSUAL": $scope.variablesUso.cantidadTipoPago=12;break;
-            case "TRIMESTRAL": $scope.variablesUso.cantidadTipoPago=4;break;
-            case "SEMESTRAL": $scope.variablesUso.cantidadTipoPago=2;break;
-            case "ANUAL": $scope.variablesUso.cantidadTipoPago=1;break;
+            case "MENSUAL": $scope.variablesUso.cantidadTipoPagoPresente=12;break;
+            case "TRIMESTRAL": $scope.variablesUso.cantidadTipoPagoPresente=4;break;
+            case "SEMESTRAL": $scope.variablesUso.cantidadTipoPagoPresente=2;break;
+            case "ANUAL": $scope.variablesUso.cantidadTipoPagoPresente=1;break;
         }
-        $scope.variablesUso.porcentajeEfectivo=($scope.data.porcentaje/100)/$scope.variablesUso.cantidadTipoPago;
+    }
+    $scope.convercionNominalEfectiva=function(){
+        $scope.variablesUso.porcentajeEfectivo=($scope.data.porcentaje/100)/$scope.variablesUso.cantidadTipoPagoPresente;
     }
     $scope.validarDatosIngreso=function()
     {
