@@ -127,4 +127,34 @@ app.controller("appController", function($scope) {
         }
         return true;
     }
+    $scope.InvertirTasa=function(){
+        $scope.respuesta=[];
+        $scope.respuesta.banderaError=false;
+        $scope.respuesta.mensajeError="";
+        $scope.respuesta.banderaSuccess=false;
+        $scope.respuesta.mensajeSuccess="";
+        $scope.copyData=[]
+        $scope.copyData.porcentaje=$scope.data.porcentaje;
+        $scope.copyData.tipoPresente=$scope.data.tipoPresente;
+        $scope.copyData.formPagoPresente=$scope.data.formPagoPresente;
+        $scope.copyData.tipoFuturo=$scope.data.tipoFuturo;
+        $scope.copyData.formaPagoFuturo=$scope.data.formaPagoFuturo;
+        $scope.data=[];
+        $scope.data.porcentaje=$scope.variablesUso.Resultado;
+        $scope.data.tipoPresente=$scope.copyData.tipoFuturo;
+        $scope.data.formPagoPresente=$scope.copyData.formaPagoFuturo;
+        $scope.data.tipoFuturo=$scope.copyData.tipoPresente;
+        $scope.data.formaPagoFuturo=$scope.copyData.formPagoPresente;
+        $scope.variablesUso=[];
+        $scope.Calcular();
+    }
+    $scope.Nueva=function(){
+        $scope.respuesta=[];
+        $scope.respuesta.banderaError=false;
+        $scope.respuesta.mensajeError="";
+        $scope.respuesta.banderaSuccess=false;
+        $scope.respuesta.mensajeSuccess="";
+        $scope.variablesUso=[];
+        $scope.data=[];
+    }
 });

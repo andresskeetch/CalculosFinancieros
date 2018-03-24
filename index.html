@@ -83,17 +83,33 @@
                             <button ng-click="Calcular()" class="btn btn-success">Calcular</button>
                         </div>
                     </div>
+                   
                     <br>
                     <div class="row" ng-show="respuesta.banderaError">
                         <div class="col-md-12  text-center">
                             <label style="width:100%" class="label label-danger" >{{respuesta.mensajeError}}</label>
                         </div>
                     </div>
-                    <div class="row" ng-show="respuesta.banderaSuccess">
-                        <div class="col-md-12 text-center" >
-                            <label style="width:100%" class="label label-success" >{{respuesta.mensajeSuccess}}</label>
+                    <div ng-show="respuesta.banderaSuccess">
+                        <div class="row" >
+                            <div class="col-md-12 text-center" >
+                                <label style="width:100%" class="label label-success" >{{respuesta.mensajeSuccess}}</label>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <button ng-click="InvertirTasa()" class="btn btn-info">Revertir Tasa</button>
+                            </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <button ng-click="Nueva()" class="btn btn-danger">Nueva Conversion</button>
+                        </div>
+                    </div>
+                    
                     
                 </div>
             </div>
