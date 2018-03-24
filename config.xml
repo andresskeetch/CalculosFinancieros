@@ -5,16 +5,16 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        =  "com.phonegap.pedidosnline"
         versionCode = "49" 
-        version   = "2.3.5">
+        version   = "1.0.0">
 
-    <name>Reymon</name>
+    <name>ECCI Convert</name>
 
     <description>
-        www.pedidosonline.co
+        Conversion de Tasas
     </description>
 
-    <author href="http://pangea.com.co" email="soporte@pangea.com.co">
-        Pangea
+    <author href="" email="andres-120397@hotmail.com">
+        Andres Gomez Hernandez
     </author>
 
     <!--
