@@ -26,6 +26,8 @@ app.controller("appController", function($scope) {
                 case "NOMINAL": $scope.variablesUso.Resultado=$scope.convercionEfectivaNominal()*100;break;
                 case "EFECTIVO":$scope.variablesUso.Resultado=$scope.variablesUso.TasaEfectivaInicial*100; break;
             }
+            $scope.variablesUso.Resultado=(($scope.variablesUso.Resultado*100)/100);
+            $scope.variablesUso.Resultado=parseFloat($scope.variablesUso.Resultado.toFixed(4));
             $scope.respuesta.banderaError=false;
             $scope.respuesta.banderaSuccess=true;
             $scope.respuesta.mensajeSuccess="Datos Calculados";
@@ -157,4 +159,5 @@ app.controller("appController", function($scope) {
         $scope.variablesUso=[];
         $scope.data=[];
     }
+
 });
