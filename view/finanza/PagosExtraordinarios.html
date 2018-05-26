@@ -1,0 +1,128 @@
+<div ng-controller="pagosController">
+    <div class="row">
+        <div class="col-md-12">
+           <div class="alert alert-primary text-center">
+               <h1>Pagos Extraordinarios</h1>
+           </div>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading text-center">Datos a Ingresar</div>
+        <div class="panel-body">
+            <div class="row text-center">
+                <div class="col-md-12 ">
+                    <label class="form-label ">Porcentaje Presente</label>
+                    <input type="number" min="0"  class="form-control" placeholder="Porcentaje" ng-model="data.porcentaje">
+                </div>
+                <div class="col-md-12 ">
+                    <label class="form-label ">Tipo</label>
+                    <select  ng-model="data.tipoPresente" class="form-control" >
+                        <option value="">Seleccionar</option>
+                        <option value="NOMINAL">Nominal</option>
+                        <option value="EFECTIVO">Efectivo</option>
+                    </select>
+                </div>
+                <div class="col-md-12 ">
+                    <label class="form-label ">Tipo Tasa/Tiempo</label>
+                    <select ng-model="data.formPagoPresente" class="form-control" >
+                        <option value="">Seleccionar</option>
+                        <option value="MENSUAL">Mensual</option>
+                        <option value="TRIMESTRAL">Trimestral</option>
+                        <option value="SEMESTRAL">Semestral</option>
+                        <option value="ANUAL">Anual</option>
+                    </select>
+                </div>
+                <div class="col-md-12 ">
+                    <label class="form-label ">Capital</label>
+                    <input type="number" min="0"  class="form-control" placeholder="Capital" ng-model="data.capital">
+                </div>
+                <div class="col-md-12 ">
+                    <label class="form-label ">Tiempo</label>
+                    <input type="number" min="0"  class="form-control" placeholder="Tiempo" ng-model="data.tiempo">
+                </div>
+                <div class="col-md-12 ">
+                    <label class="form-label ">Tasa</label>
+                    <select ng-model="data.formaPagoFuturo" class="form-control" >
+                        <option value="">Seleccionar</option>
+                        <option value="MENSUAL">Mensual</option>
+                        <option value="TRIMESTRAL">Trimestral</option>
+                        <option value="SEMESTRAL">Semestral</option>
+                        <option value="ANUAL">Anual</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="row text-center" ng-repeat="item in variablesUso.pagosExtraordinarios">
+                <h2>Pago Extraordinario {{$index+1}}</h2>
+                <div class="col-md-12 ">
+                    <label class="form-label ">Tiempo</label>
+                    <input type="number" min="0"  class="form-control" placeholder="Capital" ng-model="item.tiempo">
+                </div>
+                <div class="col-md-12 ">
+                        <label class="form-label ">Pago</label>
+                        <input type="number" min="0"  class="form-control" placeholder="Capital" ng-model="item.pago">
+                    </div>
+                <div class="col-md-12 ">
+                    <label class="form-label ">Incluye Cuota</label>
+                    <select ng-model="item.incluye" class="form-control" >
+                        <option value="">Seleccionar</option>
+                        <option value="SI">SI</option>
+                        <option value="NO">NO</option>
+                    </select>
+                </div>
+                <div class="col-md-12 ">
+                    <label class="form-label ">Disminuye</label>
+                    <select ng-model="item.disminuye" class="form-control" >
+                        <option value="">Seleccionar</option>
+                        <option value="TIEMPO">TIEMPO</option>
+                        <option value="CUOTA">CUOTA</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12 ">
+                        <button ng-click="agregarPago()" class="btn btn-info">Agregar Pago</button>
+                    <button ng-click="Calcular()" class="btn btn-success">Calcular</button>
+                    
+                </div>
+            </div>
+            <br>
+            <div class="row" ng-show="respuesta.banderaError">
+                <div class="col-md-12  text-center">
+                    <label style="width:100%" class="label label-danger" >{{respuesta.mensajeError}}</label>
+                </div>
+            </div>
+            <div ng-show="respuesta.banderaSuccess">
+                <div class="row" >
+                    <div class="col-md-12  text-center">
+                        <label style="width:100%" class="label label-info" >Cuota: {{variablesUso.Cuota}}</label>
+                    </div>
+                    <br>
+                    <div class="col-md-12 text-center" >
+                        <label style="width:100%" class="label label-success" >{{respuesta.mensajeSuccess}}</label>
+                    </div>
+                    <br>
+                    <div class="col-md-12 text-center" >
+                        <table id="Tabla" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Capital</th>
+                                    <th>Interes</th>
+                                    <th>Amortiz</th>
+                                    <th>Pago</th>
+                                    <th>Saldo</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

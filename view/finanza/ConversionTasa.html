@@ -1,0 +1,111 @@
+<div ng-controller="conversionController">
+        <div class="row">
+            <div class="col-md-12">
+               <div class="alert alert-primary text-center">
+                   <h1>Conversion de Tasas</h1>
+               </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+               <div class="panel-heading text-center">Datos a Ingresar</div>
+               <div class="panel-body">
+                   <div class="row text-center">
+                       <div class="col-md-12 ">
+                           <label class="form-label ">Porcentaje Presente</label>
+                           <input type="number" min="0"  class="form-control" placeholder="Porcentaje" ng-model="data.porcentaje">
+                       </div>
+                       <div class="col-md-12 ">
+                           <label class="form-label ">Tipo Presente</label>
+                           <select  ng-model="data.tipoPresente" class="form-control" >
+                               <option value="">Seleccionar</option>
+                               <option value="NOMINAL">Nominal</option>
+                               <option value="EFECTIVO">Efectivo</option>
+                           </select>
+                       </div>
+                       <div class="col-md-12 ">
+                           <label class="form-label ">Forma pago Presente</label>
+                           <select ng-model="data.formPagoPresente" class="form-control" >
+                               <option value="">Seleccionar</option>
+                               <option value="MENSUAL">Mensual</option>
+                               <option value="TRIMESTRAL">Trimestral</option>
+                               <option value="SEMESTRAL">Semestral</option>
+                               <option value="ANUAL">Anual</option>
+                           </select>
+                       </div>
+                       <div class="col-md-12 ">
+                               <label class="form-label ">Tipo Futuro</label>
+                               <select ng-model="data.tipoFuturo" class="form-control" >
+                                   <option value="">Seleccionar</option>
+                                   <option value="NOMINAL">Nominal</option>
+                                   <option value="EFECTIVO">Efectivo</option>
+                               </select>
+                           </div>
+                           <div class="col-md-12 ">
+                               <label class="form-label ">Forma pago Futuro</label>
+                               <select ng-model="data.formaPagoFuturo" class="form-control" >
+                                   <option value="">Seleccionar</option>
+                                   <option value="MENSUAL">Mensual</option>
+                                   <option value="TRIMESTRAL">Trimestral</option>
+                                   <option value="SEMESTRAL">Semestral</option>
+                                   <option value="ANUAL">Anual</option>
+                               </select>
+                           </div>
+                         
+                   </div>
+                   <br>
+                   <div class="row">
+                       <div class="col-md-12 ">
+                           <button ng-click="Calcular()" class="btn btn-success">Calcular</button>
+                       </div>
+                   </div>
+                  
+                   <br>
+                   <div class="row" ng-show="respuesta.banderaError">
+                       <div class="col-md-12  text-center">
+                           <label style="width:100%" class="label label-danger" >{{respuesta.mensajeError}}</label>
+                       </div>
+                   </div>
+                   <div ng-show="respuesta.banderaSuccess">
+                       <div class="row" >
+                           <div class="col-md-12 text-center" >
+                               <label style="width:100%" class="label label-success" >{{respuesta.mensajeSuccess}}</label>
+                           </div>
+                       </div>
+                       <br>
+                       <div class="row">
+                           <div class="col-md-12 ">
+                               <button ng-click="InvertirTasa()" class="btn btn-info">Revertir Tasa</button>
+                           </div>
+                       </div>
+                   </div>
+                   <br>
+                   <div class="row">
+                       <div class="col-md-12 ">
+                           <button ng-click="Nueva()" class="btn btn-danger">Nueva Conversion</button>
+                       </div>
+                   </div>
+                   
+                   
+               </div>
+           </div>
+           <div class="panel panel-success">
+               <div class="panel-heading text-center">Resultados</div>
+                   <div class="panel-body">
+                       <div class="row text-center">
+                           <div class="col-md-12 ">
+                               <label class="form-label ">Porcentaje Futuro</label>
+                               <input type="number" ng-model="variablesUso.Resultado"  class="form-control" placeholder="Porcentaje" disabled>
+                           </div>
+                           <div class="col-md-12 ">
+                               <label class="form-label ">Tipo Futuro</label>
+                               <input ng-model="data.tipoFuturo" type="text"  class="form-control" placeholder="Porcentaje" disabled>
+                           </div>
+                           <div class="col-md-12 ">
+                               <label class="form-label ">Forma pago Futuro</label>
+                               <input type="text" ng-model="data.formaPagoFuturo"  class="form-control" placeholder="Porcentaje" disabled>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+   </div>

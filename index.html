@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" ng-app="CalculosFinancieros">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="js/lib/jquery-3.2.1.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="js/lib/bootstrap.min.js"></script>
-    <script src="js/lib/angular.js"></script>
-    <script src="js/controller/appController.js"></script>
-    <title>Document</title>
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/ajax-angularjs.js"></script>
+    <script type="text/javascript" src="js/lib/angular-resource.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular-route.min.js"></script>
+    <script type="text/javascript" src="js/controller/appController.js"></script>
+    <title>Ing. Economica</title>
     <style>
         input{
             text-align: center
@@ -17,123 +19,31 @@
         select { 
             text-align-last:center; 
         }
-        button{
+        button,a{
             width: 100%
         }
     </style>
 </head>
-<body ng-app="CalculosFinancieros">
-    <div ng-controller="appController">
-         <div class="row">
-             <div class="col-md-12">
-                <div class="alert alert-primary text-center">
-                    <h1>Calculos Financieros</h1>
-                </div>
-             </div>
-         </div>
-         <div class="panel panel-primary">
-                <div class="panel-heading text-center">Datos a Ingresar</div>
-                <div class="panel-body">
-                    <div class="row text-center">
-                        <div class="col-md-12 ">
-                            <label class="form-label ">Porcentaje Presente</label>
-                            <input type="number" min="0"  class="form-control" placeholder="Porcentaje" ng-model="data.porcentaje">
-                        </div>
-                        <div class="col-md-12 ">
-                            <label class="form-label ">Tipo Presente</label>
-                            <select  ng-model="data.tipoPresente" class="form-control" >
-                                <option value="">Seleccionar</option>
-                                <option value="NOMINAL">Nominal</option>
-                                <option value="EFECTIVO">Efectivo</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 ">
-                            <label class="form-label ">Forma pago Presente</label>
-                            <select ng-model="data.formPagoPresente" class="form-control" >
-                                <option value="">Seleccionar</option>
-                                <option value="MENSUAL">Mensual</option>
-                                <option value="TRIMESTRAL">Trimestral</option>
-                                <option value="SEMESTRAL">Semestral</option>
-                                <option value="ANUAL">Anual</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 ">
-                                <label class="form-label ">Tipo Futuro</label>
-                                <select ng-model="data.tipoFuturo" class="form-control" >
-                                    <option value="">Seleccionar</option>
-                                    <option value="NOMINAL">Nominal</option>
-                                    <option value="EFECTIVO">Efectivo</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12 ">
-                                <label class="form-label ">Forma pago Futuro</label>
-                                <select ng-model="data.formaPagoFuturo" class="form-control" >
-                                    <option value="">Seleccionar</option>
-                                    <option value="MENSUAL">Mensual</option>
-                                    <option value="TRIMESTRAL">Trimestral</option>
-                                    <option value="SEMESTRAL">Semestral</option>
-                                    <option value="ANUAL">Anual</option>
-                                </select>
-                            </div>
-                          
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-12 ">
-                            <button ng-click="Calcular()" class="btn btn-success">Calcular</button>
-                        </div>
-                    </div>
-                   
-                    <br>
-                    <div class="row" ng-show="respuesta.banderaError">
-                        <div class="col-md-12  text-center">
-                            <label style="width:100%" class="label label-danger" >{{respuesta.mensajeError}}</label>
-                        </div>
-                    </div>
-                    <div ng-show="respuesta.banderaSuccess">
-                        <div class="row" >
-                            <div class="col-md-12 text-center" >
-                                <label style="width:100%" class="label label-success" >{{respuesta.mensajeSuccess}}</label>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12 ">
-                                <button ng-click="InvertirTasa()" class="btn btn-info">Revertir Tasa</button>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-12 ">
-                            <button ng-click="Nueva()" class="btn btn-danger">Nueva Conversion</button>
-                        </div>
-                    </div>
-                    
-                    
-                </div>
+<body  ng-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-primary text-center">
+                <h1>Ingenieria Economica</h1>
             </div>
-            <div class="panel panel-success">
-                <div class="panel-heading text-center">Resultados</div>
-                    <div class="panel-body">
-                        <div class="row text-center">
-                            <div class="col-md-12 ">
-                                <label class="form-label ">Porcentaje Futuro</label>
-                                <input type="number" ng-model="variablesUso.Resultado"  class="form-control" placeholder="Porcentaje" disabled>
-                            </div>
-                            <div class="col-md-12 ">
-                                <label class="form-label ">Tipo Futuro</label>
-                                <input ng-model="data.tipoFuturo" type="text"  class="form-control" placeholder="Porcentaje" disabled>
-                            </div>
-                            <div class="col-md-12 ">
-                                <label class="form-label ">Forma pago Futuro</label>
-                                <input type="text" ng-model="data.formaPagoFuturo"  class="form-control" placeholder="Porcentaje" disabled>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
     </div>
-    
+    <div class="row">
+        <div class="col-md-12">
+            <a href="#/finanza/PagosExtraordinarios" class="btn btn-primary">Pagos ExtraOrdinarios</a>
+        </div>
+        <br>
+        <div class="col-md-12">
+            <a href="#/finanza/ConversionTasa" class="btn btn-success">Conversion de Tasas</a>
+        </div>
+    </div>
+    <div ng-controller="appController" >
+        <ng-view>
+        </ng-view>
+    </div>
 </body>
 </html>
