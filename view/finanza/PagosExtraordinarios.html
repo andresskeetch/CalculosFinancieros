@@ -84,41 +84,28 @@
                 <div class="col-md-12 ">
                         <button ng-click="agregarPago()" class="btn btn-info">Agregar Pago</button>
                     <button ng-click="Calcular()" class="btn btn-success">Calcular</button>
-                    
                 </div>
             </div>
             <br>
-            <div class="row" ng-show="respuesta.banderaError">
-                <div class="col-md-12  text-center">
-                    <label style="width:100%" class="label label-danger" >{{respuesta.mensajeError}}</label>
+            <div class="row text-center" ng-repeat="item in resultados">
+                <h2>{{item.mensaje}}</h2>
+                <div class="col-md-12 ">
+                        <label class="form-label ">Cuota</label>
+                        <input type="text" disabled class="form-control" value="{{item.cuota | number : 2}}">
                 </div>
-            </div>
-            <div ng-show="respuesta.banderaSuccess">
-                <div class="row" >
-                    <div class="col-md-12  text-center">
-                        <label style="width:100%" class="label label-info" >Cuota: {{variablesUso.Cuota}}</label>
-                    </div>
-                    <br>
-                    <div class="col-md-12 text-center" >
-                        <label style="width:100%" class="label label-success" >{{respuesta.mensajeSuccess}}</label>
-                    </div>
-                    <br>
-                    <div class="col-md-12 text-center" >
-                        <table id="Tabla" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Capital</th>
-                                    <th>Interes</th>
-                                    <th>Amortiz</th>
-                                    <th>Pago</th>
-                                    <th>Saldo</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
+                <div class="col-md-12 ">
+                        <label class="form-label ">Cuota Inicial</label>
+                        <input type="text" class="form-control" disabled value="{{item.coutaInicial}}">
                 </div>
+                <div class="col-md-12 ">
+                        <label class="form-label ">Total Cuotas</label>
+                        <input class="form-control" disabled type="text" value="{{item.coutaFinal | number : 2}}">
+                </div>
+                <div class="col-md-12 ">
+                        <label class="form-label ">Total Pagar</label>
+                        <input type="text" class="form-control" disabled value="{{item.totalPagar | number : 2}}">
+                </div>
+                
             </div>
         </div>
     </div>

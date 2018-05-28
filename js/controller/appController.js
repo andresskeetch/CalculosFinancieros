@@ -37,8 +37,8 @@ app.controller("pagosController", function($scope){
     $scope.respuesta.mensajeSuccess="";
     $scope.variablesUso=[];
     $scope.variablesUso.pagosExtraordinarios=[];
+    $scope.resultados=[];
     $scope.data.tipoFuturo='EFECTIVO';
-    $scope.tempData={};
     $scope.agregarPago=function(){
         $scope.variablesUso.pagosExtraordinarios.push({
             periodo:0,
@@ -83,13 +83,79 @@ app.controller("pagosController", function($scope){
         $scope.respuesta.banderaSuccess=true;
         $scope.respuesta.mensajeSuccess="Datos Calculados";
         $scope.respuesta.mensajeError="";
-        $scope.creacionTabla();
+        $scope.calcularPagos();
+        //$scope.creacionTabla();
         /*}
         else{
             $scope.respuesta.banderaError=true;
             $scope.respuesta.banderaSuccess=false;
         }*/
     }
+    $scope.calcularPagos=function(){
+        $scope.resultados=[];
+        $scope.resultados.push({
+            cuota:$scope.variablesUso.Cuota,
+            mensaje:'Cuota sin alteraciones',
+            coutaFinal:$scope.variablesUso.tiempoTotal,
+            coutaInicial:1,
+            totalPagar:$scope.variablesUso.Cuota*$scope.variablesUso.tiempoTotal
+        });
+        var pagosExtraTemp=[];
+        angular.copy($scope.variablesUso.pagosExtraordinarios,pagosExtraTemp);
+        pagosExtraTemp=pagosExtraTemp.sort(function(a,b){return a.tiempo-b.tiempo});
+        for (let index = 0; index < pagosExtraTemp.length; index++) {
+            var ultimoPago=$scope.resultados[$scope.resultados.length-1];
+            if(pagosExtraTemp[index].disminuye=="CUOTA"){
+                $scope.resultados.push($scope.bajarCuota(ultimoPago,pagosExtraTemp[index]))
+            }else{
+                $scope.resultados.push($scope.bajarTiempo(ultimoPago,pagosExtraTemp[index]))
+            }
+        }
+    }
+    $scope.bajarCuota=function(ultimoPago,pagoExtraOrdinario){
+        var cuotaAnterior=pagoExtraOrdinario.tiempo-1;
+        var totalPeriodosPendientes=ultimoPago.coutaFinal-cuotaAnterior;
+        var valorPresente=ultimoPago.cuota*((1- (1/Math.pow(1+$scope.variablesUso.Resultado,totalPeriodosPendientes)))/$scope.variablesUso.Resultado);
+        var interesActual=valorPresente*$scope.variablesUso.Resultado;
+        if(pagoExtraOrdinario.incluye=="NO"){
+            pagoExtraOrdinario.pago+=$scope.variablesUso.Cuota
+        }
+        var valorPagoNeto=pagoExtraOrdinario.pago-interesActual;
+        valorPresente-=valorPagoNeto;
+        var denominadorEcuacion=(1-1/(Math.pow(1+$scope.variablesUso.Resultado,totalPeriodosPendientes+1)))/$scope.variablesUso.Resultado;
+        var nuevaCuota=valorPresente/denominadorEcuacion;
+        return {
+            pagoExtraOrdinario:pagoExtraOrdinario,
+            cuota:nuevaCuota,
+            mensaje:'Pago ExtraOrdinario Reduccion de Cuota',
+            coutaFinal:ultimoPago.coutaFinal,
+            coutaInicial:pagoExtraOrdinario.tiempo,
+            totalPagar:valorPresente
+        };
+    }
+    $scope.bajarTiempo=function(ultimoPago,pagoExtraOrdinario){
+        var cuotaAnterior=pagoExtraOrdinario.tiempo-1;
+        var totalPeriodosPendientes=ultimoPago.coutaFinal-cuotaAnterior;
+        var valorPresente=ultimoPago.cuota*((1- (1/Math.pow(1+$scope.variablesUso.Resultado,totalPeriodosPendientes)))/$scope.variablesUso.Resultado)
+        var interesActual=valorPresente*$scope.variablesUso.Resultado;
+        if(pagoExtraOrdinario.incluye=="NO"){
+            pagoExtraOrdinario.pago+=$scope.variablesUso.Cuota
+        }
+        var valorPagoNeto=pagoExtraOrdinario.pago-interesActual;
+        valorPresente-=valorPagoNeto;
+        var valorEcuacion1=Math.log((((valorPresente/ultimoPago.cuota)*($scope.variablesUso.Resultado))-1)*-1);
+        var valorEcuacion2=Math.log(1+$scope.variablesUso.Resultado);
+        var TotalTiempoRestante=-1*(valorEcuacion1/valorEcuacion2);
+        return {
+            pagoExtraOrdinario:pagoExtraOrdinario,
+            cuota:ultimoPago.cuota,
+            mensaje:'Pago ExtraOrdinario Reduccion de Tiempo',
+            coutaFinal:TotalTiempoRestante+cuotaAnterior,
+            coutaInicial:pagoExtraOrdinario.tiempo,
+            totalPagar:valorPresente
+        }
+    }
+    /*
     $scope.creacionTabla=function(){
         var tabla=$('#Tabla');
         tabla.find('tbody').empty();
@@ -112,7 +178,7 @@ app.controller("pagosController", function($scope){
             }
             else{
                 record={
-                    periodo:index,
+                    periodo:$scope.tempData.index,
                     capital:$scope.tempData.capital,
                     interes:$scope.tempData.capital*$scope.variablesUso.Resultado,
                     amortiz:$scope.variablesUso.Cuota-($scope.tempData.capital*$scope.variablesUso.Resultado),
@@ -172,7 +238,7 @@ app.controller("pagosController", function($scope){
         var valor2=Math.log(1+$scope.variablesUso.Resultado);
         var resultado=(valor1/valor2)*(-1);
 
-    }
+    }*/
     $scope.conversionTiempo=function(){
         //$scope.variablesUso.tiempoTotal=$scope.variablesUso.cantidadTipoPagoFuturo*$scope.data.tiempo;
         $scope.variablesUso.tiempoTotal=$scope.data.tiempo;
