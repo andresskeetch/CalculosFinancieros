@@ -77,19 +77,11 @@ app.controller("pagosController", function($scope){
         $scope.conversionTiempo();
         $scope.variablesUso.denominador=(1-1/(Math.pow(1+$scope.variablesUso.Resultado,$scope.variablesUso.tiempoTotal)))/$scope.variablesUso.Resultado;
         $scope.variablesUso.Cuota=$scope.data.capital/$scope.variablesUso.denominador;
-        //$scope.variablesUso.Resultado=(($scope.variablesUso.Resultado*100)/100);
-        //$scope.variablesUso.Resultado=parseFloat($scope.variablesUso.Resultado.toFixed(4));
         $scope.respuesta.banderaError=false;
         $scope.respuesta.banderaSuccess=true;
         $scope.respuesta.mensajeSuccess="Datos Calculados";
         $scope.respuesta.mensajeError="";
         $scope.calcularPagos();
-        //$scope.creacionTabla();
-        /*}
-        else{
-            $scope.respuesta.banderaError=true;
-            $scope.respuesta.banderaSuccess=false;
-        }*/
     }
     $scope.calcularPagos=function(){
         $scope.resultados=[];
@@ -150,95 +142,11 @@ app.controller("pagosController", function($scope){
             pagoExtraOrdinario:pagoExtraOrdinario,
             cuota:ultimoPago.cuota,
             mensaje:'Pago ExtraOrdinario Reduccion de Tiempo',
-            coutaFinal:TotalTiempoRestante+cuotaAnterior,
+            coutaFinal:TotalTiempoRestante+cuotaAnterior+1,
             coutaInicial:pagoExtraOrdinario.tiempo,
             totalPagar:valorPresente
         }
     }
-    /*
-    $scope.creacionTabla=function(){
-        var tabla=$('#Tabla');
-        tabla.find('tbody').empty();
-        $scope.tableData=[];
-        $scope.tempData={
-            capital:$scope.data.capital,
-            tiempo:$scope.data.tiempo,
-            index:1,
-            totalCuota:$scope.data.tiempo
-        };
-        while($scope.tempData.index<=$scope.tempData.totalCuota) {
-            var PagoExtraOrdinario=$scope.variablesUso.pagosExtraordinarios.filter(f=>f.tiempo==index);
-            var record=null;
-            if(PagoExtraOrdinario.length>0)
-            {
-                debugger
-                if(PagoExtraOrdinario[0].disminuye=="CUOTA"){
-                    record=$scope.bajarCuota(PagoExtraOrdinario[0]);
-                }
-            }
-            else{
-                record={
-                    periodo:$scope.tempData.index,
-                    capital:$scope.tempData.capital,
-                    interes:$scope.tempData.capital*$scope.variablesUso.Resultado,
-                    amortiz:$scope.variablesUso.Cuota-($scope.tempData.capital*$scope.variablesUso.Resultado),
-                    pago:$scope.variablesUso.Cuota,
-                    saldo:$scope.tempData.capital-($scope.variablesUso.Cuota-($scope.tempData.capital*$scope.variablesUso.Resultado))
-                }
-                $scope.tempData.capital-=$scope.variablesUso.Cuota-($scope.tempData.capital*$scope.variablesUso.Resultado)
-            }
-            if(record.saldo<0){
-                record.pago=record.amortiz;
-                record.saldo=0;
-            }
-            record.capital=record.capital.toFixed(2);
-            record.interes=record.interes.toFixed(2);
-            record.amortiz=record.amortiz.toFixed(2);
-            record.pago=record.pago.toFixed(2);
-            record.saldo=record.saldo.toFixed(2);
-            
-            $scope.tableData.push(record);
-        }
-        for (let count = 0; count < $scope.tableData.length; count++) {
-            tabla.find('tbody').append('<tr><td>'+$scope.tableData[count].periodo+'</td><td>'+$scope.tableData[count].capital+'</td><td>'+$scope.tableData[count].interes+'</td><td>'+$scope.tableData[count].amortiz+'</td><td>'+$scope.tableData[count].pago+'</td><td>'+$scope.tableData[count].saldo+'</td></tr>')
-        }
-    }
-    $scope.bajarCuota=function(pago){
-        var interesEnTiempo=$scope.tempData.capital*$scope.variablesUso.Resultado;
-        var pagoRealizado=pago.pago;
-        var cuotaAnterior=$scope.variablesUso.Cuota;
-        var capitalAnterior=$scope.tempData.capital;
-        if(pago.incluye=="NO"){
-            pagoRealizado+=$scope.variablesUso.Cuota
-        }
-        pagoRealizado-=interesEnTiempo;
-        $scope.tempData.capital-=pagoRealizado;
-        $scope.variablesUso.denominador=(1-1/(Math.pow(1+$scope.variablesUso.Resultado,($scope.tempData.tiempo-pago.tiempo))))/$scope.variablesUso.Resultado;
-        $scope.variablesUso.Cuota=$scope.tempData.capital/$scope.variablesUso.denominador;
-        return {
-            periodo:pago.tiempo,
-            capital:capitalAnterior,
-            interes:interesEnTiempo,
-            amortiz:pagoRealizado,
-            pago:pagoRealizado+interesEnTiempo,
-            saldo:capitalAnterior-pagoRealizado
-        }
-    }
-    $scope.bajarTiempo=function(pago){
-        var interesEnTiempo=$scope.tempData.capital*$scope.variablesUso.Resultado;
-        var pagoRealizado=pago.pago;
-        var cuotaAnterior=$scope.variablesUso.Cuota;
-        var capitalAnterior=$scope.tempData.capital;
-        if(pago.incluye=="NO"){
-            pagoRealizado+=$scope.variablesUso.Cuota
-        }
-        pagoRealizado-=interesEnTiempo;
-        $scope.tempData.capital-=pagoRealizado;
-        var valor1=Math.log((($scope.tempData.capital/$scope.variablesUso.Cuota)*$scope.variablesUso.Resultado)-1)
-        var valor2=Math.log(1+$scope.variablesUso.Resultado);
-        var resultado=(valor1/valor2)*(-1);
-
-    }*/
     $scope.conversionTiempo=function(){
         //$scope.variablesUso.tiempoTotal=$scope.variablesUso.cantidadTipoPagoFuturo*$scope.data.tiempo;
         $scope.variablesUso.tiempoTotal=$scope.data.tiempo;
